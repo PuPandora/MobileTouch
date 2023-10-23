@@ -22,13 +22,32 @@ public class PlayerBehaviour : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
-        horizontalSpeed = Input.GetAxis("Horizontal") * dodgeSpeed;
-    }
-
     void FixedUpdate()
     {
+        // Keyboard Left, Right Move
+        //horizontalSpeed = Input.GetAxis("Horizontal") * dodgeSpeed;
+
+        // Move Left, Right Move
+        if (Input.GetMouseButton(0))
+        {
+            // 0과 1 스케일로 변환
+            var worldPos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            float xMove = 0;
+
+            // 화면 오른쪽 클릭
+            if (worldPos.x < 0.5f)
+            {
+                xMove = -1;
+            }
+            // 화면 왼쪽 클릭
+            else
+            {
+                xMove = 1;
+            }
+            // horizontalSpeed 값을 수정
+            horizontalSpeed = xMove * dodgeSpeed;
+        }
+
         rigid.AddForce(horizontalSpeed, 0, rollSpeed);
     }
 }
