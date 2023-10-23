@@ -49,6 +49,15 @@ public class PlayerBehaviour : MonoBehaviour
     /// </summary>
     private float currentScale = 1.0f;
 
+    // Accelerometer
+    public enum MobileHorizMovement
+    {
+        Accelerometer,
+        ScreenTouch
+    }
+    [Header("Accelerometer Property")]
+    public MobileHorizMovement horizMovement = MobileHorizMovement.Accelerometer;
+
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
@@ -73,14 +82,23 @@ public class PlayerBehaviour : MonoBehaviour
 
         // 모바일 디바이스 (iOS, Android)
 #elif UNITY_IOS || UNITY_ANDROID
+        if (horizMovement == MobileHorizMovement.Accelerometer)
+        {
+            // 가속도 센서 이동 방식
+            horizontalSpeed = Input.acceleration.x * dodgeSpeed;
+        }
+
         // 터치 입력
         if (Input.touchCount > 0)
         {
-            // 첫 번째 터치를 감지
-            Touch touch = Input.touches[0];
-            horizontalSpeed = CalculateMovement(touch.position);
-            SwipeTeleport(touch);
-            ScalePlayer();
+            if (horizMovement == MobileHorizMovement.ScreenTouch)
+            {
+                // 첫 번째 터치를 감지
+                Touch touch = Input.touches[0];
+                horizontalSpeed = CalculateMovement(touch.position);
+                SwipeTeleport(touch);
+                ScalePlayer();
+            }
         }
 #endif
 
