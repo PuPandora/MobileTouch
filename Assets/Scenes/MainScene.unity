@@ -472,8 +472,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 1671165163207353467, guid: d91791dfdbd7a1644a2f96dd0ecff91a, type: 3}
+  obstacle: {fileID: 5520320645864790718, guid: 11a1d8a05be91654fac08771f580f569,
+    type: 3}
   startPoint: {x: 0, y: 0, z: -5}
   initSpawnNum: 15
+  initNoObstacle: 4
 --- !u!4 &1194319449
 Transform:
   m_ObjectHideFlags: 0
@@ -522,8 +525,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6562797f483688a409a471863c7986aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dodgeSpeed: 1
-  rollSpeed: 1
+  dodgeSpeed: 10
+  rollSpeed: 1.5
 --- !u!135 &1405471132
 SphereCollider:
   m_ObjectHideFlags: 0
