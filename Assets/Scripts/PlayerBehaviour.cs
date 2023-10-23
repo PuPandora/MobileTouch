@@ -98,6 +98,7 @@ public class PlayerBehaviour : MonoBehaviour
                 horizontalSpeed = CalculateMovement(touch.position);
                 SwipeTeleport(touch);
                 ScalePlayer();
+                TouchObjects(touch);
             }
         }
 #endif
@@ -134,7 +135,7 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     /// <summary>
-    /// 스와이프 순간이동 함수
+    /// 모바일 스와이프 순간이동 함수
     /// </summary>
     /// <param name="touch">터치 좌표</param>
     private void SwipeTeleport(Touch touch)
@@ -183,6 +184,9 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 모바일 핀치 크기 조절 함수
+    /// </summary>
     private void ScalePlayer()
     {
         // 2개의 터치를 감지될 때만 실행
@@ -218,6 +222,30 @@ public class PlayerBehaviour : MonoBehaviour
 
             // 다음 프레임에 현재 크기로 설정
             currentScale = newScale;
+        }
+    }
+
+    /// <summary>
+    /// 게임 오브젝트를 터치하고 있는지 확인
+    /// <br></br>
+    /// 터치하고 있다면 이벤트 호출
+    /// </summary>
+    /// <param name="touch"></param>
+    private static void TouchObjects(Touch touch)
+    {
+        // 카메라가 바라보는 위치를 ray로 반환
+        Ray touchRay = Camera.main.ScreenPointToRay(touch.position);
+
+        RaycastHit hit;
+
+        // 가능한 모든 채널과 충돌하는 LayerMask
+        int layerMask = ~0;
+
+        // Collider가 오브젝트를 터치하는 체크
+        if (Physics.Raycast(touchRay, out hit, Mathf.Infinity, layerMask, QueryTriggerInteraction.Ignore))
+        {
+            // 이 함수를 호출한 오브젝트가 PlayerTouch 함수가 있을 경우 호출
+            hit.transform.SendMessage("PlayerTouch", SendMessageOptions.DontRequireReceiver);
         }
     }
 }
