@@ -89,6 +89,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         // 터치 입력
+        // 터치 입력이 하나 이상일 때만
         if (Input.touchCount > 0)
         {
             if (horizMovement == MobileHorizMovement.ScreenTouch)
