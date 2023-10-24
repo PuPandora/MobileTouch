@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 플레이어 스크립트
@@ -69,6 +70,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+        // 정지 중이라면 FixedUpdate 비활성화
+        if (PauseScreenBehaviour.paused)
+        {
+            return;
+        }
+
         // 키보드 입력
         //horizontalSpeed = Input.GetAxis("Horizontal") * dodgeSpeed;
 
@@ -105,6 +112,12 @@ public class PlayerBehaviour : MonoBehaviour
 #endif
 
         rigid.AddForce(horizontalSpeed, 0, rollSpeed);
+
+        // 떨어졌는지 체크
+        if (rigid.position.y <= -10)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
     
     /// <summary>
