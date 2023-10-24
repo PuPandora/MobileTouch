@@ -66,6 +66,10 @@ public class PlayerBehaviour : MonoBehaviour
         // dpi = dots per inch
         // Screen.dpi = 화면 1인치당 픽셀의 수
         minSwipeDistancePixels = minSwipeDistance * Screen.dpi;
+
+#if UNITY_IOS || UNITY_ANDROID
+        Application.targetFrameRate = 60;
+#endif
     }
 
     void FixedUpdate()
